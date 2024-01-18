@@ -23,16 +23,11 @@ private readonly IMapper _mapper;
 
        [HttpGet]
        public async Task<ActionResult<List<AuctionDTO>>> GetAllAuctions (string date){
-        var auction = await _context.Auctions
-        .Include(x => x.Item)
-        .OrderBy(x => x.Item.Make)
-        .ToListAsync();
-        return _mapper.Map<List<AuctionDTO>>(auction);
-        // var query = _context.Auctions.OrderBy(  x => x.Item.Make).AsQueryable();
-        // if(!string.IsNullOrEmpty(date)){
-        //     query = query.Where( x=> x.UpdateAt.CompareTo(DateTime.Parse(date).ToUniversalTime()) > 0); 
-        // }
-        //         return await query.ProjectTo<AuctionDTO>(_mapper.ConfigurationProvider).ToListAsync();
+                var query = _context.Auctions.OrderBy(  x => x.Item.Make).AsQueryable(); 
+                if(!string.IsNullOrEmpty(date)){
+                        query = query.Where( x=> x.UpdateAt.CompareTo(DateTime.Parse(date).ToUniversalTime()) > 0); 
+                            }
+                return await query.ProjectTo<AuctionDTO>(_mapper.ConfigurationProvider).ToListAsync();
        }
 
        [HttpGet("{id}")]
