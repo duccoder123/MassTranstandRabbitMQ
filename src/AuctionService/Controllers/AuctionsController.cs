@@ -45,12 +45,12 @@ private readonly IPublishEndpoint _publishEndpoint;
                 if(auction == null) return NotFound();
                 return _mapper.Map<AuctionDTO>(auction);
        }
+       [Authorize]
        [HttpPost]
        public async Task<ActionResult<AuctionDTO>> CreateAuction (CreateAuctionDTO auctionDto)
        {
             var auction = _mapper.Map<Auction>(auctionDto);
-            auction.Seller= "test";
-            // User.Identity.Name;
+            auction.Seller= User.Identity.Name;
             _context.Auctions.Add(auction);
                    var newAuction = _mapper.Map<AuctionDTO>(auction);
             await _publishEndpoint.Publish(_mapper.Map<AuctionCreated>(newAuction));
@@ -59,14 +59,15 @@ private readonly IPublishEndpoint _publishEndpoint;
             return CreatedAtAction(nameof(GetAuctionById), 
                         new {auction.Id},newAuction);
        }
+       [Authorize]
         [HttpPut("{id}")]
        public async Task<ActionResult> UpdateAuction(Guid id, UpdateAuctionDTO updateAuctionDto)
        {
             var auction = await _context.Auctions.Include(x => x.Item)
                 .FirstOrDefaultAsync(x => x.Id == id);
             
-            // if(auction == null) return NotFound();
-            // if(auction.Seller != User.Identity.Name) return Forbid();
+            if(auction == null) return NotFound();
+            if(auction.Seller != User.Identity.Name) return Forbid();
 
             auction.Item.Make = updateAuctionDto.Make ?? auction.Item.Make;
             auction.Item.Model = updateAuctionDto.Model ?? auction.Item.Model;
@@ -79,12 +80,13 @@ private readonly IPublishEndpoint _publishEndpoint;
             if(result) return Ok();
             return BadRequest("Problem saving changes");
        }
+       [Authorize]
        [HttpDelete("{id}")]
        public async Task<ActionResult> DeleteAuction(Guid id)
        {
             var auction = await _context.Auctions.FindAsync(id);
             if(auction == null) return NotFound();
-            // if(auction.Seller != User.Identity.Name) return Forbid();
+            if(auction.Seller != User.Identity.Name) return Forbid();
             _context.Auctions.Remove(auction);
             await _publishEndpoint.Publish<AuctionDeleted>(new {Id = auction.Id.ToString()});
             var result = await _context.SaveChangesAsync() > 0;
