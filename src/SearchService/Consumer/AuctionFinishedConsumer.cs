@@ -11,7 +11,7 @@ public class AuctionFinishedConsumer : IConsumer<AuctionFinished>
         var auction = await DB.Find<Item>().OneAsync(context.Message.AuctionId);
         if(context.Message.ItemSold){
             auction.Winner = context.Message.Winner;
-            auction.SoldAmouy = (int)context.Message.Amout;
+            auction.SoldAmout = (int)context.Message.Amout;
         }
         auction.Status = "Finished";
         await auction.SaveAsync();
