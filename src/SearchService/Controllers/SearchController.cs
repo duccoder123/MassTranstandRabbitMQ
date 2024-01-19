@@ -16,12 +16,12 @@ public class SearchController : ControllerBase
            if(!string.IsNullOrEmpty(searchParams.SearchTerm)){
         query.Match(Search.Full, searchParams.SearchTerm).SortByTextScore();
       }
-         //   query= searchParams.FilterBy switch {
-    //     "finished" => query.Match(x=>x.AuctionEnd < DateTime.UtcNow),
-    //     "endingSoon" => query.Match(x => x.AuctionEnd < DateTime.UtcNow.AddHours(6) 
-    //      && x.AuctionEnd > DateTime.UtcNow),
-    //      _ => query.Match(x => x.AuctionEnd > DateTime.UtcNow)
-    //   };
+      //      query= searchParams.FilterBy switch {
+      //   "finished" => query.Match(x=>x.AuctionEnd < DateTime.UtcNow),
+      //   "endingSoon" => query.Match(x => x.AuctionEnd < DateTime.UtcNow.AddHours(6) 
+      //    && x.AuctionEnd > DateTime.UtcNow),
+      //    _ => query.Match(x => x.AuctionEnd > DateTime.UtcNow)
+      // };
    query = searchParams.OrderBy switch {
         "make" => query.Sort( x=> x.Ascending(a=>a.Make)),
         "new" => query.Sort(x => x.Ascending(a => a.CreatedAt)),
