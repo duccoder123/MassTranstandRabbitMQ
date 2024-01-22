@@ -1,1 +1,12 @@
 react-icons : it is used to work with icons
+react-countdown : it can be create a count down
+RabbitMQ : it a middleware that helps application communication with each other through sending and receiving message.
+                    it can be used in a variety of scenarios, such as:
+                     + Communication between microservice application
+                     + Handling event
+                     + Building applications real-time
+                     + Builiding applications distributed computing
+
+MassTransit : helps .NETdevelopers route messages through message brokers like RabbitMQ,...
+
+Flowbite React : an open source UI componet library based on Tailwind CSS and ReactJS
