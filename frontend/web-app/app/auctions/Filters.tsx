@@ -16,6 +16,7 @@ export default function Filters({ pageSize, setPageSize }: Props) {
               key={idx}
               onClick={() => setPageSize(value)}
               color={`${pageSize === value ? "red" : "gray"}`}
+              className="focus:ring-0"
             >
               {value}
             </Button>

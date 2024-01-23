@@ -10,3 +10,4 @@ RabbitMQ : it a middleware that helps application communication with each other 
 MassTransit : helps .NETdevelopers route messages through message brokers like RabbitMQ,...
 
 Flowbite React : an open source UI componet library based on Tailwind CSS and ReactJS
+Zustand : is a state management library for React. It allows you to manage the state of your application easily and flexibly.
