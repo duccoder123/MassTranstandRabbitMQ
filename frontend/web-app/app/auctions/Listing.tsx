@@ -6,7 +6,8 @@ import AppPagination from "../components/AppPagination";
 import { getData } from "../actions/auctionActions";
 import Filters from "./Filters";
 import { useParamsStore } from "@/hooks/useParam";
-import { shallow } from "zustand/shallow"; // shallow is a key word used to specify how a store's state is compared when updated
+import { shallow } from "zustand/shallow";
+// shallow is a key word used to specify how a store's state is compared when updated
 import qs from "query-string";
 
 export default function Listing() {
@@ -19,18 +20,19 @@ export default function Listing() {
     (state) => ({
       pageNumber: state.pageNumber,
       pageSize: state.pageSize,
-      searchTerm: state.searchTerm,
     }),
     shallow
   );
   const setParams = useParamsStore((state) => state.setParams);
   const url = qs.stringifyUrl({ url: "", query: params });
+  console.log(url);
 
   function setPageNumber(pageNumber: number) {
     setParams({ pageNumber });
   }
   useEffect(() => {
     getData(url).then((data) => {
+      console.log(data);
       setData(data);
     });
   }, [url]);
