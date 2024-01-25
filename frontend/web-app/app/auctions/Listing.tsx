@@ -9,6 +9,7 @@ import { useParamsStore } from "@/hooks/useParam";
 import { shallow } from "zustand/shallow";
 // shallow is a key word used to specify how a store's state is compared when updated
 import qs from "query-string";
+import EmptyFilter from "../components/EmptyFilter";
 
 export default function Listing() {
   // const [auctions, setAuctions] = useState<Auction[]>([]);
@@ -44,18 +45,25 @@ export default function Listing() {
   return (
     <>
       <Filters />
-      <div className="grid grid-cols-4 gap-6">
-        {data.results.map((auction) => (
-          <AuctionCard auction={auction} key={auction.id} />
-        ))}
-      </div>
-      <div className="flex justify-center mt-4">
-        <AppPagination
-          pageChanged={setPageNumber}
-          currentPage={params.pageNumber}
-          pageCount={data.pageCount}
-        />
-      </div>
+      {data.totalCount === 0 ? (
+        <EmptyFilter showReset />
+      ) : (
+        <>
+          {" "}
+          <div className="grid grid-cols-4 gap-6">
+            {data.results.map((auction) => (
+              <AuctionCard auction={auction} key={auction.id} />
+            ))}
+          </div>
+          <div className="flex justify-center mt-4">
+            <AppPagination
+              pageChanged={setPageNumber}
+              currentPage={params.pageNumber}
+              pageCount={data.pageCount}
+            />
+          </div>
+        </>
+      )}
     </>
   );
 }
